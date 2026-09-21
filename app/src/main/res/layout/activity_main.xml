@@ -53,6 +53,37 @@
             android:layout_height="wrap_content"
             android:hint="claude-sonnet-4-6" />
 
+        <LinearLayout
+            android:id="@+id/offlineSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Mode hors ligne : Astrid répond sans internet grâce à un modèle installé sur le téléphone. Importe d'abord un fichier modèle (.task)."
+                android:textColor="#888888"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/localModelStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Aucun modèle importé"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/importModelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Importer un modèle (.task)" />
+        </LinearLayout>
+
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
