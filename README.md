@@ -30,7 +30,7 @@ Le dépôt contient déjà un fichier `.github/workflows/build-apk.yml`. Dès qu
 1. Transfère le fichier `app-debug.apk` sur ton téléphone (via Google Drive, e-mail, câble USB, etc.) et ouvre-le.
 2. Android va demander d'autoriser l'installation depuis cette source ("Installer des applis inconnues") — accepte.
 3. Installe l'appli.
-
+ 
 ## 4. Configurer et activer la bulle
 
 1. Ouvre l'appli **Assistant IA Flottant**.
