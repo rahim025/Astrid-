@@ -3,72 +3,142 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5"
-    android:elevation="8dp">
+    android:background="@drawable/panel_background">
 
+    <!-- En-tête -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#6C5CE7"
-        android:padding="12dp"
+        android:background="@drawable/header_background"
+        android:paddingLeft="16dp"
+        android:paddingRight="8dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
         android:gravity="center_vertical">
 
-        <TextView
+        <FrameLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/avatar_background">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_bubble"
+                android:contentDescription="@null" />
+        </FrameLayout>
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Astrid"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:textSize="16sp" />
+            android:layout_marginLeft="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Astrid"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/status_dot" />
+
+                <TextView
+                    android:id="@+id/statusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:text="En ligne"
+                    android:textColor="#E6E2FF"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/closeButton"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="9dp"
+            android:src="@drawable/ic_close"
             android:contentDescription="Fermer" />
 
     </LinearLayout>
 
+    <!-- Messages -->
     <ScrollView
         android:id="@+id/messagesScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="12dp">
+        android:clipToPadding="false"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:scrollbars="none">
 
-        <TextView
-            android:id="@+id/messagesText"
+        <LinearLayout
+            android:id="@+id/messagesContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#222222"
-            android:textSize="14sp" />
+            android:orientation="vertical" />
 
     </ScrollView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/astrid_border" />
+
+    <!-- Saisie -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="#FFFFFF">
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:gravity="bottom">
 
         <EditText
             android:id="@+id/chatInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Écris ton message..."
+            android:minHeight="44dp"
+            android:background="@drawable/input_background"
+            android:hint="Écrire un message…"
+            android:textColorHint="#9AA0B4"
+            android:textColor="@color/astrid_text"
+            android:textSize="15sp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:inputType="textCapSentences|textMultiLine"
             android:maxLines="4" />
 
         <ImageView
             android:id="@+id/sendButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_send"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="8dp"
+            android:padding="11dp"
+            android:background="@drawable/send_background"
+            android:src="@drawable/ic_send"
             android:contentDescription="Envoyer" />
 
     </LinearLayout>
