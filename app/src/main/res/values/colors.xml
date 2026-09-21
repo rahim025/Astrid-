@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="astrid_primary">#6C5CE7</color>
+    <color name="astrid_primary_dark">#5443D6</color>
+    <color name="astrid_bg">#F4F5FA</color>
+    <color name="astrid_border">#E4E6EF</color>
+    <color name="astrid_text">#1F2233</color>
+    <color name="astrid_text_secondary">#8A8FA3</color>
+    <color name="astrid_error_bg">#FDECEC</color>
+    <color name="astrid_error_border">#F3B8B8</color>
+    <color name="astrid_error_text">#B42318</color>
+    <color name="astrid_online">#3DDC97</color>
+</resources>
