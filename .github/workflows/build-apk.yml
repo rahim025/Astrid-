@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      ANDROID_HOME: /home/runner/android-sdk
 
     steps:
       - name: Checkout
@@ -21,20 +19,10 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Android SDK command-line tools
-        run: |
-          mkdir -p "$ANDROID_HOME/cmdline-tools"
-          cd "$ANDROID_HOME/cmdline-tools"
-          curl -sSL -o tools.zip https://dl.google.com/android/repository/commandlinetools-linux-14742923_latest.zip
-          unzip -q tools.zip
-          mv cmdline-tools latest
-          rm tools.zip
-
       - name: Accept licenses and install SDK packages
         run: |
-          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
-          yes | "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --licenses > /dev/null || true
-          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Generate Gradle wrapper
         run: gradle wrapper --gradle-version 8.7
