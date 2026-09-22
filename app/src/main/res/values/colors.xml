@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="astrid_primary">#6C5CE7</color>
-    <color name="astrid_primary_dark">#5443D6</color>
-    <color name="astrid_bg">#F4F5FA</color>
-    <color name="astrid_border">#E4E6EF</color>
-    <color name="astrid_text">#1F2233</color>
-    <color name="astrid_text_secondary">#8A8FA3</color>
+    <!-- Palette kawaii -->
+    <color name="astrid_primary">#FF9CC8</color>
+    <color name="astrid_primary_dark">#C9A6FF</color>
+    <color name="astrid_bg">#FFF3F8</color>
+    <color name="astrid_bg_gradient_end">#F3E8FF</color>
+    <color name="astrid_border">#F5C9E0</color>
+    <color name="astrid_text">#5B3A52</color>
+    <color name="astrid_text_secondary">#B98FAE</color>
     <color name="astrid_error_bg">#FDECEC</color>
     <color name="astrid_error_border">#F3B8B8</color>
     <color name="astrid_error_text">#B42318</color>
-    <color name="astrid_online">#3DDC97</color>
+    <color name="astrid_online">#5FD9A6</color>
+
+    <color name="kawaii_face_grad_start">#FFFDFB</color>
+    <color name="kawaii_face_grad_end">#FFE7F2</color>
+    <color name="kawaii_skin">#FFE9DC</color>
+    <color name="kawaii_hair">#3E2172</color>
+    <color name="kawaii_hair_light">#6B3FB8</color>
+    <color name="kawaii_cheek">#FF9EBE</color>
+    <color name="kawaii_eye_outline">#2B1750</color>
+    <color name="kawaii_iris">#8C3FE0</color>
+    <color name="kawaii_iris_dark">#5B1FA8</color>
+    <color name="kawaii_mouth">#B23A5C</color>
+    <color name="kawaii_mouth_open">#7A1F3D</color>
+    <color name="kawaii_tongue">#E8637F</color>
+    <color name="kawaii_sparkle_star">#C9A6FF</color>
+    <color name="kawaii_sparkle_heart">#FF8FC0</color>
+    <color name="kawaii_input_bg">#FFF0F7</color>
 </resources>
