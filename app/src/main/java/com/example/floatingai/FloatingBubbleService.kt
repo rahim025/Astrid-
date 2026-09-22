@@ -1,5 +1,9 @@
 package com.example.floatingai
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -22,7 +26,9 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -34,6 +40,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import kotlin.math.abs
+import kotlin.random.Random
 
 class FloatingBubbleService : Service() {
 
@@ -59,6 +66,40 @@ class FloatingBubbleService : Service() {
     private var typingView: TextView? = null
     private var typingStep = 0
 
+    // ---------- Visage kawaii ----------
+    private var bubbleContainer: FrameLayout? = null
+    private var bubbleIcon: ImageView? = null
+    private var headerAvatar: ImageView? = null
+    private var isSmiling = false
+    private var idleBounceAnimator: ObjectAnimator? = null
+
+    private val blinkRunnable = object : Runnable {
+        override fun run() {
+            applyFace(R.drawable.kawaii_face_blink)
+            mainHandler.postDelayed({ applyFace(currentFaceDrawable()) }, 130)
+            mainHandler.postDelayed(this, 2600L + Random.nextLong(2600))
+        }
+    }
+
+    private val smileRunnable = object : Runnable {
+        override fun run() {
+            isSmiling = true
+            applyFace(R.drawable.kawaii_face_smile)
+            mainHandler.postDelayed({
+                isSmiling = false
+                applyFace(currentFaceDrawable())
+            }, 1500)
+            mainHandler.postDelayed(this, 3500L + Random.nextLong(3500))
+        }
+    }
+
+    private val sparkleRunnable = object : Runnable {
+        override fun run() {
+            if (chatView == null) spawnSparkle()
+            mainHandler.postDelayed(this, 2200)
+        }
+    }
+
     private val typingRunnable = object : Runnable {
         override fun run() {
             typingView?.text = "Astrid écrit" + ".".repeat(typingStep % 3 + 1)
@@ -77,6 +118,82 @@ class FloatingBubbleService : Service() {
         windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         startForegroundWithNotification()
         showBubble()
+        mainHandler.postDelayed(blinkRunnable, 2600L + Random.nextLong(2600))
+        mainHandler.postDelayed(smileRunnable, 3500L + Random.nextLong(3500))
+        mainHandler.postDelayed(sparkleRunnable, 2200)
+    }
+
+    // ---------- Animation du visage kawaii ----------
+
+    private fun currentFaceDrawable(): Int =
+        if (isSmiling) R.drawable.kawaii_face_smile else R.drawable.kawaii_face
+
+    private fun applyFace(resId: Int) {
+        bubbleIcon?.setImageResource(resId)
+        headerAvatar?.setImageResource(resId)
+    }
+
+    private fun dpF(value: Int): Float = value * resources.displayMetrics.density
+
+    private fun startIdleBounce(view: ImageView) {
+        idleBounceAnimator?.cancel()
+        val anim = ObjectAnimator.ofFloat(view, "translationY", 0f, -dpF(7), 0f)
+        anim.duration = 2600
+        anim.repeatCount = ObjectAnimator.INFINITE
+        anim.interpolator = AccelerateDecelerateInterpolator()
+        anim.start()
+        idleBounceAnimator = anim
+    }
+
+    /** Petit "squish" façon gelée au tapotement, puis ouvre le chat. */
+    private fun playSquishThenToggle(view: ImageView) {
+        val scaleX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.12f, 0.9f, 1.03f, 1f)
+        val scaleY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 0.82f, 1.18f, 0.95f, 1f)
+        val set = AnimatorSet()
+        set.playTogether(scaleX, scaleY)
+        set.duration = 550
+        set.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                toggleChat()
+            }
+        })
+        set.start()
+    }
+
+    /** Étincelle ambiante (étoile ou coeur) autour de la bulle, comme dans la version web. */
+    private fun spawnSparkle() {
+        val container = bubbleContainer ?: return
+        val isHeart = Random.nextFloat() > 0.55f
+        val sparkle = ImageView(this)
+        sparkle.setImageResource(if (isHeart) R.drawable.ic_kawaii_heart else R.drawable.ic_kawaii_star)
+
+        val size = dp(14)
+        val params = FrameLayout.LayoutParams(size, size, Gravity.CENTER)
+        val angle = Random.nextDouble(0.0, Math.PI * 2)
+        val radius = dpF(34) + Random.nextFloat() * dpF(12)
+        params.leftMargin = (Math.cos(angle) * radius).toInt()
+        params.topMargin = (Math.sin(angle) * radius).toInt()
+        sparkle.layoutParams = params
+        sparkle.alpha = 0f
+        sparkle.scaleX = 0.3f
+        sparkle.scaleY = 0.3f
+        container.addView(sparkle)
+
+        sparkle.animate()
+            .alpha(1f)
+            .scaleX(1f).scaleY(1f)
+            .translationYBy(-dpF(18))
+            .rotationBy(90f)
+            .setDuration(700)
+            .withEndAction {
+                sparkle.animate()
+                    .alpha(0f)
+                    .scaleX(0.7f).scaleY(0.7f)
+                    .setDuration(700)
+                    .withEndAction { container.removeView(sparkle) }
+                    .start()
+            }
+            .start()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int = START_STICKY
@@ -123,7 +240,11 @@ class FloatingBubbleService : Service() {
         params.x = 0
         params.y = 300
 
+        bubbleContainer = view.findViewById(R.id.bubbleContainer)
         val bubbleIcon = view.findViewById<ImageView>(R.id.bubbleIcon)
+        this.bubbleIcon = bubbleIcon
+        bubbleIcon.setImageResource(currentFaceDrawable())
+        startIdleBounce(bubbleIcon)
 
         var initialX = 0
         var initialY = 0
@@ -151,7 +272,7 @@ class FloatingBubbleService : Service() {
                     true
                 }
                 MotionEvent.ACTION_UP -> {
-                    if (!isDragging) toggleChat()
+                    if (!isDragging) playSquishThenToggle(bubbleIcon)
                     true
                 }
                 else -> false
@@ -186,6 +307,8 @@ class FloatingBubbleService : Service() {
         messagesScroll = view.findViewById(R.id.messagesScroll)
         statusText = view.findViewById(R.id.statusText)
         sendButton = view.findViewById(R.id.sendButton)
+        headerAvatar = view.findViewById(R.id.headerAvatar)
+        headerAvatar?.setImageResource(currentFaceDrawable())
         val input = view.findViewById<EditText>(R.id.chatInput)
         val closeBtn = view.findViewById<ImageView>(R.id.closeButton)
 
@@ -219,6 +342,7 @@ class FloatingBubbleService : Service() {
         messagesScroll = null
         statusText = null
         sendButton = null
+        headerAvatar = null
         view.animate()
             .alpha(0f)
             .translationY(dp(40).toFloat())
@@ -407,6 +531,10 @@ class FloatingBubbleService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         mainHandler.removeCallbacks(typingRunnable)
+        mainHandler.removeCallbacks(blinkRunnable)
+        mainHandler.removeCallbacks(smileRunnable)
+        mainHandler.removeCallbacks(sparkleRunnable)
+        idleBounceAnimator?.cancel()
         bubbleView?.let { try { windowManager.removeView(it) } catch (_: Exception) {} }
         chatView?.let { try { windowManager.removeView(it) } catch (_: Exception) {} }
     }
