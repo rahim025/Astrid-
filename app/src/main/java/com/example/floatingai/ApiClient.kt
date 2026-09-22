@@ -28,6 +28,13 @@ object ApiClient {
         onError: (String) -> Unit
     ) {
         val provider = Prefs.getProvider(context)
+
+        // Mode hors ligne : tout se passe sur l'appareil, aucun réseau requis.
+        if (provider == "offline") {
+            LocalLlmClient.sendMessage(context, history, onResult, onError)
+            return
+        }
+
         val apiKey = Prefs.getApiKey(context, provider)
         if (apiKey.isBlank()) {
             onError("Aucune clé API configurée pour $provider. Ouvre l'appli et ajoute ta clé dans les paramètres.")
@@ -82,6 +89,7 @@ object ApiClient {
         val payload = JSONObject()
             .put("model", model)
             .put("max_tokens", 1024)
+            .put("system", Identity.SYSTEM_PROMPT)
             .put("messages", messages)
 
         return Request.Builder()
@@ -113,6 +121,7 @@ object ApiClient {
     ): Request {
         val model = Prefs.getModel(context, "openai")
         val messages = JSONArray()
+        messages.put(JSONObject().put("role", "system").put("content", Identity.SYSTEM_PROMPT))
         for ((role, content) in history) {
             messages.put(JSONObject().put("role", role).put("content", content))
         }
@@ -142,6 +151,7 @@ object ApiClient {
     ): Request {
         val model = Prefs.getModel(context, "groq")
         val messages = JSONArray()
+        messages.put(JSONObject().put("role", "system").put("content", Identity.SYSTEM_PROMPT))
         for ((role, content) in history) {
             messages.put(JSONObject().put("role", role).put("content", content))
         }
@@ -169,7 +179,11 @@ object ApiClient {
             val parts = JSONArray().put(JSONObject().put("text", content))
             contents.put(JSONObject().put("role", geminiRole).put("parts", parts))
         }
-        val payload = JSONObject().put("contents", contents)
+        val systemInstruction = JSONObject()
+            .put("parts", JSONArray().put(JSONObject().put("text", Identity.SYSTEM_PROMPT)))
+        val payload = JSONObject()
+            .put("system_instruction", systemInstruction)
+            .put("contents", contents)
 
         val url =
             "https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey"
