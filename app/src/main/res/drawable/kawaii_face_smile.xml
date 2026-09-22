@@ -1,91 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Mochi : grand sourire (excité / vient de répondre) -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="40dp"
     android:height="40dp"
     android:viewportWidth="100"
     android:viewportHeight="100">
 
-    <path android:pathData="M50,90 m-22,0 a22,6 0 1 0 44,0 a22,6 0 1 0 -44,0" android:fillColor="@color/kawaii_shadow_soft" />
+    <path android:pathData="M29,19 m-7,0 a7,7 0 1 0 14,0 a7,7 0 1 0 -14,0" android:fillColor="@color/kawaii_mochi_bow" />
+    <path android:pathData="M40,14 m-5.5,0 a5.5,5.5 0 1 0 11,0 a5.5,5.5 0 1 0 -11,0" android:fillColor="@color/kawaii_mochi_bow" />
+    <path android:pathData="M34.5,17 m-3,0 a3,3 0 1 0 6,0 a3,3 0 1 0 -6,0" android:fillColor="@color/kawaii_mochi_bow_light" />
 
-    <path android:pathData="M14,55 C8,68 6,85 12,98 C18,90 20,72 20,58 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient android:type="linear" android:startX="10" android:startY="55" android:endX="16" android:endY="98"
-                android:startColor="@color/kawaii_hair_light" android:endColor="@color/kawaii_hair_shadow" />
-        </aapt:attr>
-    </path>
-    <path android:pathData="M86,55 C92,68 94,85 88,98 C82,90 80,72 80,58 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient android:type="linear" android:startX="90" android:startY="55" android:endX="84" android:endY="98"
-                android:startColor="@color/kawaii_hair" android:endColor="@color/kawaii_hair_shadow" />
-        </aapt:attr>
-    </path>
+    <path android:pathData="M27,59 m-7,-4.5 a7,4.5 0 1 0 14,0 a7,4.5 0 1 0 -14,0" android:fillColor="@color/kawaii_mochi_cheek" android:fillAlpha="0.85" />
+    <path android:pathData="M73,59 m-7,-4.5 a7,4.5 0 1 0 14,0 a7,4.5 0 1 0 -14,0" android:fillColor="@color/kawaii_mochi_cheek" android:fillAlpha="0.85" />
 
-    <path android:pathData="M50,16 A37,37 0 1 0 50.01,16 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient android:type="radial" android:centerX="34" android:centerY="24" android:gradientRadius="48"
-                android:startColor="@color/kawaii_hair_highlight" android:centerColor="@color/kawaii_hair" android:endColor="@color/kawaii_hair_shadow" />
-        </aapt:attr>
-    </path>
-    <path android:pathData="M30,18 C36,12 46,10 54,12 C46,14 39,19 35,27 C33,22 31,19 30,18 Z"
-        android:fillColor="@color/kawaii_hair_highlight" android:fillAlpha="0.55" />
+    <!-- yeux : légèrement agrandis, ravis -->
+    <path android:pathData="M29,37 h11 a8,8 0 0 1 0,16 h-11 a8,8 0 0 1 0,-16 Z" android:fillColor="@color/kawaii_mochi_eye" />
+    <path android:pathData="M60,37 h11 a8,8 0 0 1 0,16 h-11 a8,8 0 0 1 0,-16 Z" android:fillColor="@color/kawaii_mochi_eye" />
+    <path android:pathData="M32.5,42.48 m-2.1,0 a2.1,2.1 0 1 0 4.2,0 a2.1,2.1 0 1 0 -4.2,0" android:fillColor="#FFFFFF" />
+    <path android:pathData="M63.5,42.48 m-2.1,0 a2.1,2.1 0 1 0 4.2,0 a2.1,2.1 0 1 0 -4.2,0" android:fillColor="#FFFFFF" />
 
-    <path android:pathData="M50,33 A27,27 0 1 0 50.01,33 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient android:type="radial" android:centerX="44" android:centerY="48" android:gradientRadius="34"
-                android:startColor="@color/kawaii_skin_highlight" android:centerColor="@color/kawaii_skin" android:endColor="@color/kawaii_skin_shadow" />
-        </aapt:attr>
-    </path>
-
-    <path android:pathData="M24,35 Q32,30 40,34" android:strokeColor="@color/kawaii_hair"
-        android:strokeWidth="2" android:strokeLineCap="round" android:fillColor="#00000000" />
-    <path android:pathData="M60,34 Q68,30 76,35" android:strokeColor="@color/kawaii_hair"
-        android:strokeWidth="2" android:strokeLineCap="round" android:fillColor="#00000000" />
-
-    <path android:pathData="M27,44 a9.5,10.5 0 1 0 19,0 a9.5,10.5 0 1 0 -19,0"
-        android:fillColor="#FFFFFF" android:strokeColor="@color/kawaii_eye_outline" android:strokeWidth="1.4" />
-    <path android:pathData="M61,44 a9.5,10.5 0 1 0 19,0 a9.5,10.5 0 1 0 -19,0"
-        android:fillColor="#FFFFFF" android:strokeColor="@color/kawaii_eye_outline" android:strokeWidth="1.4" />
-
-    <path android:pathData="M36.5,44 m-7,0 a7,7 0 1 0 14,0 a7,7 0 1 0 -14,0">
-        <aapt:attr name="android:fillColor">
-            <gradient android:type="radial" android:centerX="34" android:centerY="41" android:gradientRadius="9.5"
-                android:startColor="@color/kawaii_iris_light" android:centerColor="@color/kawaii_iris" android:endColor="@color/kawaii_iris_dark" />
-        </aapt:attr>
-    </path>
-    <path android:pathData="M70.5,44 m-7,0 a7,7 0 1 0 14,0 a7,7 0 1 0 -14,0">
-        <aapt:attr name="android:fillColor">
-            <gradient android:type="radial" android:centerX="68" android:centerY="41" android:gradientRadius="9.5"
-                android:startColor="@color/kawaii_iris_light" android:centerColor="@color/kawaii_iris" android:endColor="@color/kawaii_iris_dark" />
-        </aapt:attr>
-    </path>
-    <path android:pathData="M38.5,47.5 m-3.8,0 a3.8,3.8 0 1 0 7.6,0 a3.8,3.8 0 1 0 -7.6,0" android:fillColor="@color/kawaii_eye_outline" android:fillAlpha="0.65" />
-    <path android:pathData="M72.5,47.5 m-3.8,0 a3.8,3.8 0 1 0 7.6,0 a3.8,3.8 0 1 0 -7.6,0" android:fillColor="@color/kawaii_eye_outline" android:fillAlpha="0.65" />
-    <path android:pathData="M33,35 L34.3,38.5 L38,40 L34.3,41.5 L33,45 L31.7,41.5 L28,40 L31.7,38.5 Z" android:fillColor="#FFFFFF" />
-    <path android:pathData="M67,35 L68.3,38.5 L72,40 L68.3,41.5 L67,45 L65.7,41.5 L62,40 L65.7,38.5 Z" android:fillColor="#FFFFFF" />
-    <path android:pathData="M40,50 m-1.7,0 a1.7,1.7 0 1 0 3.4,0 a1.7,1.7 0 1 0 -3.4,0" android:fillColor="#FFFFFF" android:fillAlpha="0.85" />
-    <path android:pathData="M74,50 m-1.7,0 a1.7,1.7 0 1 0 3.4,0 a1.7,1.7 0 1 0 -3.4,0" android:fillColor="#FFFFFF" android:fillAlpha="0.85" />
-
-    <path android:pathData="M29,68 m-6.5,-4.5 a6.5,4.5 0 1 0 13,0 a6.5,4.5 0 1 0 -13,0">
-        <aapt:attr name="android:fillColor">
-            <gradient android:type="radial" android:centerX="29" android:centerY="68" android:gradientRadius="8"
-                android:startColor="@color/kawaii_cheek" android:endColor="@color/kawaii_cheek_soft" />
-        </aapt:attr>
-    </path>
-    <path android:pathData="M71,68 m-6.5,-4.5 a6.5,4.5 0 1 0 13,0 a6.5,4.5 0 1 0 -13,0">
-        <aapt:attr name="android:fillColor">
-            <gradient android:type="radial" android:centerX="71" android:centerY="68" android:gradientRadius="8"
-                android:startColor="@color/kawaii_cheek" android:endColor="@color/kawaii_cheek_soft" />
-        </aapt:attr>
-    </path>
-
-    <!-- bouche grande ouverte avec profondeur -->
-    <path android:pathData="M41,76 Q50,92 59,76 Q55,85 50,85 Q45,85 41,76 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient android:type="linear" android:startX="50" android:startY="76" android:endX="50" android:endY="90"
-                android:startColor="@color/kawaii_mouth_open" android:endColor="@color/kawaii_mouth_inner" />
-        </aapt:attr>
-    </path>
-    <path android:pathData="M41,76 Q50,92 59,76 Q55,85 50,85 Q45,85 41,76 Z"
-        android:strokeColor="@color/kawaii_mouth" android:strokeWidth="1" android:fillColor="#00000000" />
+    <!-- bouche : grand sourire ouvert -->
+    <path android:pathData="M41,66 Q50,75 59,66" android:strokeColor="@color/kawaii_mochi_mouth"
+        android:strokeWidth="2.6" android:strokeLineCap="round" android:fillColor="#00000000" />
 </vector>
