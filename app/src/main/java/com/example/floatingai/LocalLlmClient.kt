@@ -5,6 +5,8 @@ import android.os.Handler
 import android.os.Looper
 import com.google.mediapipe.tasks.genai.llminference.LlmInference
 import com.google.mediapipe.tasks.genai.llminference.LlmInference.LlmInferenceOptions
+import com.google.mediapipe.tasks.genai.llminference.LlmInferenceSession
+import com.google.mediapipe.tasks.genai.llminference.LlmInferenceSession.LlmInferenceSessionOptions
 import java.io.File
 import java.util.concurrent.Executors
 
@@ -49,8 +51,15 @@ object LocalLlmClient {
         executor.execute {
             try {
                 val llm = getOrCreateEngine(appContext, modelPath.absolutePath)
+                val sessionOptions = LlmInferenceSessionOptions.builder()
+                    .setTopK(40)
+                    .setTemperature(0.7f)
+                    .build()
+                val session = LlmInferenceSession.createFromOptions(llm, sessionOptions)
                 val prompt = buildPrompt(history)
-                val response = llm.generateResponse(prompt)
+                session.addQueryChunk(prompt)
+                val response = session.generateResponse()
+                session.close()
                 mainHandler.post { onResult(response.ifBlank { "(réponse vide)" }) }
             } catch (e: Exception) {
                 mainHandler.post {
@@ -70,8 +79,6 @@ object LocalLlmClient {
         val options = LlmInferenceOptions.builder()
             .setModelPath(modelPath)
             .setMaxTokens(1024)
-            .setTopK(40)
-            .setTemperature(0.7f)
             .build()
 
         val created = LlmInference.createFromOptions(context, options)
