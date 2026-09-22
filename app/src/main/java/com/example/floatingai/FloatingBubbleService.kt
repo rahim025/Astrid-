@@ -266,8 +266,13 @@ class FloatingBubbleService : Service() {
                     val dx = event.rawX - initialTouchX
                     val dy = event.rawY - initialTouchY
                     if (abs(dx) > 10 || abs(dy) > 10) isDragging = true
-                    params.x = initialX + dx.toInt()
-                    params.y = initialY + dy.toInt()
+
+                    val screenW = resources.displayMetrics.widthPixels
+                    val screenH = resources.displayMetrics.heightPixels
+                    val bubbleSize = dp(140) // doit correspondre à bubbleContainer (140dp)
+
+                    params.x = (initialX + dx.toInt()).coerceIn(0, (screenW - bubbleSize).coerceAtLeast(0))
+                    params.y = (initialY + dy.toInt()).coerceIn(0, (screenH - bubbleSize).coerceAtLeast(0))
                     windowManager.updateViewLayout(bubbleView, params)
                     true
                 }
