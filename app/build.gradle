@@ -35,5 +35,5 @@ dependencies {
     implementation 'org.json:json:20240303'
     // Inférence IA locale (hors ligne), pour faire tourner un petit modèle .task
     // directement sur l'appareil, sans aucune connexion internet.
-    implementation 'com.google.mediapipe:tasks-genai:0.10.24'
+    implementation 'com.google.mediapipe:tasks-genai:0.10.27'
 }
