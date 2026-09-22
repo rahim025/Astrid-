@@ -26,6 +26,7 @@ object Prefs {
             "anthropic" -> "claude-sonnet-4-6"
             "openai" -> "gpt-4o-mini"
             "groq" -> "llama-3.3-70b-versatile"
+            "offline" -> "Modèle local (.task)"
             else -> "gemini-2.5-flash"
         }
         return get(context).getString("model_$provider", default) ?: default
@@ -33,5 +34,12 @@ object Prefs {
 
     fun setModel(context: Context, provider: String, model: String) {
         get(context).edit().putString("model_$provider", model).apply()
+    }
+
+    fun getLocalModelName(context: Context): String =
+        get(context).getString("local_model_name", "") ?: ""
+
+    fun setLocalModelName(context: Context, name: String) {
+        get(context).edit().putString("local_model_name", name).apply()
     }
 }
