@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+
+    <path android:pathData="M50,16 A37,37 0 1 0 50.01,16 Z" android:fillColor="@color/kawaii_hair" />
+    <path android:pathData="M14,55 C8,68 6,85 12,98 C18,90 20,72 20,58 Z" android:fillColor="@color/kawaii_hair" />
+    <path android:pathData="M86,55 C92,68 94,85 88,98 C82,90 80,72 80,58 Z" android:fillColor="@color/kawaii_hair" />
+    <path android:pathData="M32,17 C36,12 44,10 50,11 C43,15 38,20 36,28 Z" android:fillColor="@color/kawaii_hair_light" android:fillAlpha="0.55" />
+
+    <path android:pathData="M50,33 A27,27 0 1 0 50.01,33 Z" android:fillColor="@color/kawaii_skin" />
+
+    <path android:pathData="M24,35 Q32,30 40,34" android:strokeColor="@color/kawaii_hair"
+        android:strokeWidth="2" android:strokeLineCap="round" android:fillColor="#00000000" />
+    <path android:pathData="M60,34 Q68,30 76,35" android:strokeColor="@color/kawaii_hair"
+        android:strokeWidth="2" android:strokeLineCap="round" android:fillColor="#00000000" />
+
+    <path android:pathData="M27,44 a9.5,10.5 0 1 0 19,0 a9.5,10.5 0 1 0 -19,0"
+        android:fillColor="#FFFFFF" android:strokeColor="@color/kawaii_eye_outline" android:strokeWidth="1.4" />
+    <path android:pathData="M61,44 a9.5,10.5 0 1 0 19,0 a9.5,10.5 0 1 0 -19,0"
+        android:fillColor="#FFFFFF" android:strokeColor="@color/kawaii_eye_outline" android:strokeWidth="1.4" />
+    <path android:pathData="M36.5,44 m-7,0 a7,7 0 1 0 14,0 a7,7 0 1 0 -14,0" android:fillColor="@color/kawaii_iris" />
+    <path android:pathData="M70.5,44 m-7,0 a7,7 0 1 0 14,0 a7,7 0 1 0 -14,0" android:fillColor="@color/kawaii_iris" />
+    <path android:pathData="M38.5,47.5 m-3.8,0 a3.8,3.8 0 1 0 7.6,0 a3.8,3.8 0 1 0 -7.6,0" android:fillColor="@color/kawaii_iris_dark" />
+    <path android:pathData="M72.5,47.5 m-3.8,0 a3.8,3.8 0 1 0 7.6,0 a3.8,3.8 0 1 0 -7.6,0" android:fillColor="@color/kawaii_iris_dark" />
+    <path android:pathData="M33,35 L34.3,38.5 L38,40 L34.3,41.5 L33,45 L31.7,41.5 L28,40 L31.7,38.5 Z" android:fillColor="#FFFFFF" />
+    <path android:pathData="M67,35 L68.3,38.5 L72,40 L68.3,41.5 L67,45 L65.7,41.5 L62,40 L65.7,38.5 Z" android:fillColor="#FFFFFF" />
+
+    <path android:pathData="M29,68 m-6.5,-4.5 a6.5,4.5 0 1 0 13,0 a6.5,4.5 0 1 0 -13,0" android:fillColor="@color/kawaii_cheek" />
+    <path android:pathData="M71,68 m-6.5,-4.5 a6.5,4.5 0 1 0 13,0 a6.5,4.5 0 1 0 -13,0" android:fillColor="@color/kawaii_cheek" />
+
+    <!-- bouche grande ouverte, joyeuse -->
+    <path android:pathData="M41,76 Q50,92 59,76 Q55,85 50,85 Q45,85 41,76 Z"
+        android:fillColor="@color/kawaii_mouth_open" android:strokeColor="@color/kawaii_mouth" android:strokeWidth="1" />
+</vector>
