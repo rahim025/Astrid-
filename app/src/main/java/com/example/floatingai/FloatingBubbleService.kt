@@ -200,6 +200,7 @@ class FloatingBubbleService : Service() {
             requestReply()
         }
 
+        setStatusIdle()
         setWaiting(isWaiting)
         renderMessages()
 
@@ -256,9 +257,17 @@ class FloatingBubbleService : Service() {
         )
     }
 
+    private fun isOfflineMode(): Boolean = Prefs.getProvider(this) == "offline"
+
+    private fun setStatusIdle() {
+        statusText?.text = if (isOfflineMode()) "Hors ligne (modèle local)" else "En ligne"
+    }
+
     private fun setWaiting(waiting: Boolean) {
         isWaiting = waiting
-        statusText?.text = if (waiting) "En train d'écrire…" else "En ligne"
+        statusText?.text = if (waiting) "En train d'écrire…" else {
+            if (isOfflineMode()) "Hors ligne (modèle local)" else "En ligne"
+        }
         sendButton?.alpha = if (waiting) 0.5f else 1f
     }
 
@@ -266,6 +275,8 @@ class FloatingBubbleService : Service() {
         val code = Regex("\\((\\d{3})\\)").find(raw)?.groupValues?.get(1)?.toIntOrNull()
         return when {
             raw.startsWith("Aucune clé API") -> raw
+            raw.startsWith("Aucun modèle hors ligne") -> raw
+            raw.startsWith("Erreur du modèle local") -> raw
             raw.startsWith("Erreur réseau") ->
                 "Connexion impossible. Vérifiez votre accès à internet."
             code == 401 || code == 403 ->
@@ -293,7 +304,7 @@ class FloatingBubbleService : Service() {
             container,
             ChatMessage(
                 "assistant",
-                "Bonjour, je suis Astrid, votre assistante. Comment puis-je vous aider ?",
+                "Bonjour, je suis Astrid, l'assistante personnelle de Rahim Batchabi. Comment puis-je vous aider ?",
                 time = 0L
             ),
             showTime = false
