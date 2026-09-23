@@ -78,7 +78,8 @@ object LocalLlmClient {
 
         val options = LlmInferenceOptions.builder()
             .setModelPath(modelPath)
-            .setMaxTokens(1024)
+            .setMaxTokens(2048)
+            .setMaxTopK(64)
             .build()
 
         val created = LlmInference.createFromOptions(context, options)
@@ -88,24 +89,21 @@ object LocalLlmClient {
     }
 
     /**
-     * Les petits modèles embarqués (Gemma "it" etc.) n'ont en général pas de rôle
-     * "system" dédié : on injecte donc l'identité d'Astrid au début de l'historique,
-     * puis on formate la conversation au format de tour Gemma.
+     * Les modèles .task exportés (Gemma "it" etc.) appliquent déjà leur propre
+     * gabarit de conversation en interne : on envoie donc du texte brut, sans
+     * balises <start_of_turn>/<end_of_turn> manuelles (les ajouter en double
+     * provoque des réponses vides).
      */
     private fun buildPrompt(history: List<Pair<String, String>>): String {
         val sb = StringBuilder()
-        sb.append("<start_of_turn>user\n")
         sb.append(Identity.SYSTEM_PROMPT)
-        sb.append("\n<end_of_turn>\n")
-        sb.append("<start_of_turn>model\nCompris, je suis Astrid.<end_of_turn>\n")
+        sb.append("\n\n")
 
         for ((role, content) in history) {
-            val turnRole = if (role == "assistant") "model" else "user"
-            sb.append("<start_of_turn>").append(turnRole).append("\n")
-            sb.append(content)
-            sb.append("\n<end_of_turn>\n")
+            val label = if (role == "assistant") "Astrid" else "Utilisateur"
+            sb.append(label).append(" : ").append(content).append("\n")
         }
-        sb.append("<start_of_turn>model\n")
+        sb.append("Astrid : ")
         return sb.toString()
     }
 
