@@ -59,6 +59,7 @@ class FloatingBubbleService : Service() {
     private val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     private var isWaiting = false
+    private val voiceManager by lazy { VoiceManager(this) }
     private var messagesContainer: LinearLayout? = null
     private var messagesScroll: ScrollView? = null
     private var statusText: TextView? = null
@@ -116,6 +117,7 @@ class FloatingBubbleService : Service() {
     override fun onCreate() {
         super.onCreate()
         windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        voiceManager.init()
         startForegroundWithNotification()
         showBubble()
         mainHandler.postDelayed(blinkRunnable, 2600L + Random.nextLong(2600))
@@ -281,6 +283,7 @@ class FloatingBubbleService : Service() {
         headerAvatar?.setImageResource(currentFaceDrawable())
         val input = view.findViewById<EditText>(R.id.chatInput)
         val closeBtn = view.findViewById<ImageView>(R.id.closeButton)
+        val micButton = view.findViewById<ImageView>(R.id.micButton)
 
         closeBtn.setOnClickListener { closeChat() }
 
@@ -289,8 +292,28 @@ class FloatingBubbleService : Service() {
             val text = input.text.toString().trim()
             if (text.isEmpty()) return@setOnClickListener
             input.setText("")
-            messages.add(ChatMessage("user", text))
-            requestReply()
+            sendUserMessage(text)
+        }
+
+        micButton?.setOnClickListener {
+            if (isWaiting) return@setOnClickListener
+            statusText?.text = "Écoute…"
+            micButton.alpha = 0.5f
+            voiceManager.startListening(
+                onResult = { heard -> mainHandler.post { sendUserMessage(heard) } },
+                onError = { message ->
+                    mainHandler.post {
+                        setStatusIdle()
+                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                    }
+                },
+                onEnd = {
+                    mainHandler.post {
+                        micButton.alpha = 1f
+                        if (!isWaiting) setStatusIdle()
+                    }
+                }
+            )
         }
 
         setStatusIdle()
@@ -325,6 +348,12 @@ class FloatingBubbleService : Service() {
 
     // ---------- Envoi / réponse ----------
 
+    private fun sendUserMessage(text: String) {
+        if (text.isBlank()) return
+        messages.add(ChatMessage("user", text))
+        requestReply()
+    }
+
     private fun requestReply() {
         setWaiting(true)
         renderMessages()
@@ -336,9 +365,17 @@ class FloatingBubbleService : Service() {
             history,
             onResult = { reply ->
                 mainHandler.post {
-                    messages.add(ChatMessage("assistant", reply))
+                    val parsed = ToolExecutor.process(this, reply)
+                    val spokenText = parsed.displayText.ifBlank { "D'accord." }
+                    messages.add(ChatMessage("assistant", spokenText))
+                    parsed.actionResult?.let {
+                        messages.add(ChatMessage("assistant", "⚙️ $it"))
+                    }
                     setWaiting(false)
                     renderMessages()
+                    if (Prefs.isVoiceReplyEnabled(this)) {
+                        voiceManager.speak(stripForSpeech(spokenText))
+                    }
                 }
             },
             onError = { error ->
@@ -350,6 +387,12 @@ class FloatingBubbleService : Service() {
             }
         )
     }
+
+    /** Nettoie le texte affiché (markdown, listes) avant de le donner à la synthèse vocale. */
+    private fun stripForSpeech(text: String): String =
+        text.replace(Regex("\\*\\*(.+?)\\*\\*"), "$1")
+            .replace(Regex("^#{1,6}\\s+", RegexOption.MULTILINE), "")
+            .replace(Regex("^[-*]\\s+", RegexOption.MULTILINE), "")
 
     private fun isOfflineMode(): Boolean = Prefs.getProvider(this) == "offline"
 
@@ -505,6 +548,7 @@ class FloatingBubbleService : Service() {
         mainHandler.removeCallbacks(smileRunnable)
         mainHandler.removeCallbacks(sparkleRunnable)
         idleBounceAnimator?.cancel()
+        voiceManager.release()
         bubbleView?.let { try { windowManager.removeView(it) } catch (_: Exception) {} }
         chatView?.let { try { windowManager.removeView(it) } catch (_: Exception) {} }
     }

@@ -1,6 +1,8 @@
 package com.example.floatingai
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -11,10 +13,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +27,17 @@ class MainActivity : AppCompatActivity() {
     private val pickModelLauncher =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             if (uri != null) importLocalModel(uri)
+        }
+
+    private val micPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (!granted) {
+                Toast.makeText(
+                    this,
+                    "Sans micro, Jarvis ne pourra pas t'écouter à la voix.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +52,18 @@ class MainActivity : AppCompatActivity() {
         val offlineSection = findViewById<LinearLayout>(R.id.offlineSection)
         val localModelStatus = findViewById<TextView>(R.id.localModelStatus)
         val importModelButton = findViewById<Button>(R.id.importModelButton)
+        val voiceReplySwitch = findViewById<Switch>(R.id.voiceReplySwitch)
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            micPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        }
+
+        voiceReplySwitch.isChecked = Prefs.isVoiceReplyEnabled(this)
+        voiceReplySwitch.setOnCheckedChangeListener { _, checked ->
+            Prefs.setVoiceReplyEnabled(this, checked)
+        }
 
         providerSpinner.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, providers)

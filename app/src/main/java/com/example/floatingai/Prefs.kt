@@ -36,6 +36,13 @@ object Prefs {
         get(context).edit().putString("model_$provider", model).apply()
     }
 
+    fun isVoiceReplyEnabled(context: Context): Boolean =
+        get(context).getBoolean("voice_reply_enabled", true)
+
+    fun setVoiceReplyEnabled(context: Context, enabled: Boolean) {
+        get(context).edit().putBoolean("voice_reply_enabled", enabled).apply()
+    }
+
     fun getLocalModelName(context: Context): String =
         get(context).getString("local_model_name", "") ?: ""
 
