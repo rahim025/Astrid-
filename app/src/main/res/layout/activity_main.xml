@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Mode hors ligne : Astrid répond sans internet grâce à un modèle installé sur le téléphone. Importe d'abord un fichier modèle (.task)."
+                android:text="Mode hors ligne : Jarvis répond sans internet grâce à un modèle installé sur le téléphone. Importe d'abord un fichier modèle (.task)."
                 android:textColor="#888888"
                 android:textSize="13sp" />
 
@@ -84,6 +84,13 @@
                 android:text="Importer un modèle (.task)" />
         </LinearLayout>
 
+        <Switch
+            android:id="@+id/voiceReplySwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Jarvis répond à voix haute" />
+
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
@@ -102,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Une fois activée, une bulle apparaît sur ton écran. Appuie dessus pour discuter, glisse-la pour la déplacer."
+            android:text="Une fois activée, une bulle apparaît sur ton écran. Appuie dessus pour discuter (texte ou micro), glisse-la pour la déplacer. Jarvis peut ouvrir des apps, composer un SMS, régler une alarme ou un minuteur, etc."
             android:textColor="#888888"
             android:textSize="13sp" />
 
